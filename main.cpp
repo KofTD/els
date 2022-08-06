@@ -1,4 +1,3 @@
-#include "parse_arguments/parse_arguments.hpp"
 #include <filesystem>
 #include <iostream>
 #include <vector>
@@ -6,8 +5,6 @@ namespace fs = std::filesystem;
 
 int main(int argc, char const *argv[])
 {
-    auto a = parse_arguments(argc, argv);
-    std::cout << a["level"] << std::endl;
     fs::path path_to_watch;
     if (argc == 1)
     {
