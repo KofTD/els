@@ -1,0 +1,17 @@
+add_executable(Nothing nothing.cpp)
+target_link_libraries(Nothing PRIVATE ParseArguments)
+
+add_executable(OnlyPath only_path.cpp)
+target_link_libraries(OnlyPath PRIVATE ParseArguments)
+
+add_executable(ShortArguments short_arguments.cpp)
+target_link_libraries(ShortArguments PRIVATE ParseArguments)
+
+add_executable(LongArguments long_arguments.cpp)
+target_link_libraries(LongArguments PRIVATE ParseArguments)
+
+add_executable(OneDashString one_dash_string.cpp)
+target_link_libraries(OneDashString PRIVATE ParseArguments)
+
+add_executable(ParseDifficultString parse_dificult_string.cpp)
+target_link_libraries(ParseDifficultString PRIVATE ParseArguments)
