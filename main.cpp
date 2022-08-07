@@ -1,34 +1,30 @@
+#include "parse_arguments/parse_arguments.hpp"
 #include <filesystem>
 #include <iostream>
 #include <vector>
 namespace fs = std::filesystem;
+using std::cout, std::endl;
 
 int main(int argc, char const *argv[])
 {
-    fs::path path_to_watch;
-    if (argc == 1)
-    {
-        path_to_watch = fs::current_path();
-    }
-    else
-    {
-        path_to_watch = argv[1];
-    }
+    auto arguments = parse_arguments(argc, argv);
 
-    std::vector<fs::path> files_in_dir;
-    for (auto &i : fs::directory_iterator(path_to_watch))
-        files_in_dir.push_back(i);
-
-    short j = 0;
-    for (auto &i : files_in_dir)
+    if (arguments.count("help") == 1)
     {
-        std::cout << i.filename().string() << "  ";
-        j++;
-        if (j == 4)
-        {
-            std::cout << std::endl;
-            j = 0;
-        }
+        cout << "-H --help => produce help message" << endl;
+        cout << endl;
+        cout << "-------------------Outputs-------------------" << endl;
+        cout << "-L --long => display additional info about files" << endl;
+        cout << "-G --grid => display files as a grid (default output)" << endl;
+        cout << "-O --oneline => display one file per line" << endl;
+        cout << "-T --tree => display files as tree" << endl;
+        cout << "---------------------------------------------" << endl;
+        cout << endl;
+        cout << "-------------------Filters-------------------" << endl;
+        cout << "---------------------------------------------" << endl;
+        cout << endl;
+        cout << "-----------------Long options----------------" << endl;
+        cout << "---------------------------------------------" << endl;
     }
 
     return 0;
