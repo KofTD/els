@@ -18,3 +18,7 @@ endif()
 add_subdirectory(parse_arguments)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ParseArguments)
+
+add_subdirectory(outputs)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE Output)
