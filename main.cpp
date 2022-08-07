@@ -1,8 +1,6 @@
+#include "outputs/outputs.hpp"
 #include "parse_arguments/parse_arguments.hpp"
-#include <filesystem>
 #include <iostream>
-#include <vector>
-namespace fs = std::filesystem;
 using std::cout, std::endl;
 
 int main(int argc, char const *argv[])
@@ -18,6 +16,7 @@ int main(int argc, char const *argv[])
         cout << "-G --grid => display files as a grid (default output)" << endl;
         cout << "-O --oneline => display one file per line" << endl;
         cout << "-T --tree => display files as tree" << endl;
+        cout << "-R --recure => recurse into directories" << endl;
         cout << "---------------------------------------------" << endl;
         cout << endl;
         cout << "-------------------Filters-------------------" << endl;
@@ -25,6 +24,47 @@ int main(int argc, char const *argv[])
         cout << endl;
         cout << "-----------------Long options----------------" << endl;
         cout << "---------------------------------------------" << endl;
+
+        return 0;
+    }
+
+    if (arguments.count("grid"))
+    {
+        try
+        {
+            std::cout << grid_output(arguments) << std::endl;
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+    }
+    else if (arguments.count("oneline"))
+    {
+        // oneline output
+    }
+    else if (arguments.count("tree") && arguments.count("long"))
+    {
+        // tree-long output
+    }
+    else if (arguments.count("tree"))
+    {
+        // tree output
+    }
+    else if (arguments.count("long"))
+    {
+        // long output
+    }
+    else
+    {
+        try
+        {
+            std::cout << grid_output(arguments) << std::endl;
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << '\n';
+        }
     }
 
     return 0;
