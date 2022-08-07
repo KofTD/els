@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.8)
 
-set(TESTING "ON")
+# ON => build additional exe files to tests
+# OFF => only els files will be build
+set(TESTING "OFF")
 
 project(els VERSION 0.1.0.0 LANGUAGES CXX)
 
