@@ -10,6 +10,4 @@ int main(int argc, char const *argv[])
     b["level"] = "11";
 
     return (a == b ? 0 : 1);
-
-    return 0;
 }
