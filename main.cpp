@@ -1,5 +1,5 @@
-#include "outputs/outputs.hpp"
 #include "parse_arguments/parse_arguments.hpp"
+#include "outputs/grid_output.hpp"
 #include <iostream>
 using std::cout, std::endl;
 
@@ -32,44 +32,38 @@ int main(int argc, char const *argv[])
         return 0;
     }
 
-    if (arguments.count("grid"))
+    try
     {
-        try
+        if (arguments.count("grid"))
         {
-            std::cout << grid_output(arguments) << std::endl;
+            grid_output(arguments);
         }
-        catch (const std::exception &e)
+        else if (arguments.count("oneline"))
         {
-            std::cerr << e.what() << '\n';
+            // oneline output
         }
-    }
-    else if (arguments.count("oneline"))
-    {
-        // oneline output
-    }
-    else if (arguments.count("tree") && arguments.count("long"))
-    {
-        // tree-long output
-    }
-    else if (arguments.count("tree"))
-    {
-        // tree output
-    }
-    else if (arguments.count("long"))
-    {
-        // long output
-    }
-    else
-    {
-        try
+        else if (arguments.count("tree") && arguments.count("long"))
         {
-            std::cout << grid_output(arguments) << std::endl;
+            // tree-long output
         }
-        catch (const std::exception &e)
+        else if (arguments.count("tree"))
         {
-            std::cerr << e.what() << '\n';
+            // tree output
+        }
+        else if (arguments.count("long"))
+        {
+            // long output
+        }
+        else
+        {
+            grid_output(arguments);
         }
     }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    
 
     return 0;
 }
