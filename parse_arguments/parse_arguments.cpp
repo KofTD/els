@@ -35,6 +35,7 @@ inline void set_full_names_of_arguments(map<string, string> &arguments)
     full_names["D"] = "dirs";
     full_names["a"] = "all";
     full_names["s"] = "size";
+    full_names["l"] = "links";
     full_names["C"] = "created";
     full_names["m"] = "modified";
 
