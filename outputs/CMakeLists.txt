@@ -1,3 +1,5 @@
-add_library(Output STATIC outputs.hpp outputs.cpp)
+add_library(Outputs STATIC files_work.cpp files_work.hpp
+                          grid_output.cpp grid_output.hpp)
 
-set_target_properties(Output PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+
+set_target_properties(Outputs PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)   
