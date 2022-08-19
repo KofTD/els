@@ -1,7 +1,7 @@
 #include "files_work.hpp"
+#include <algorithm>
 #include <filesystem>
 #include <vector>
-#include <algorithm>
 using std::vector;
 namespace fs = std::filesystem;
 
@@ -13,14 +13,14 @@ vector<fs::path> get_all_files(fs::path path)
     vector<fs::path> files;
 
     for (auto &file : fs::directory_iterator(path))
-        files.push_back(fs::path(file));
+        files.push_back(file.path());
 
     std::sort(files.begin(), files.end());
 
     return files;
 }
 
-vector<fs::path> get_regular_files(fs::path path)
+vector<fs::path> get_rfiles_and_dirs(fs::path path)
 {
     if (!fs::is_directory(path))
         throw std::invalid_argument("Given path isn't directory");
@@ -29,8 +29,7 @@ vector<fs::path> get_regular_files(fs::path path)
 
     for (auto &file : fs::directory_iterator(path))
     {
-        if (auto path_to_file = fs::path(file); path_to_file.has_extension() ||
-           (fs::is_directory(path_to_file) && path_to_file.filename().string()[0] != '.'))
+        if (fs::is_regular_file(file) || fs::is_directory(file))
             files.push_back(file);
     }
 
@@ -47,8 +46,8 @@ vector<fs::path> get_dirs_recursive(fs::path path)
     vector<fs::path> dirs;
 
     for (auto &file : fs::recursive_directory_iterator(path))
-        if (auto path_to_file = fs::path(file); fs::is_directory(path_to_file))
-            dirs.push_back(path_to_file);
+        if (fs::is_directory(file))
+            dirs.push_back(file);
 
     return dirs;
 }
@@ -61,8 +60,8 @@ vector<fs::path> get_dirs(fs::path path)
     vector<fs::path> dirs;
 
     for (auto &file : fs::directory_iterator(path))
-        if (auto path_to_file = fs::path(file); fs::is_directory(path_to_file))
-            dirs.push_back(path_to_file);
+        if (fs::is_directory(file))
+            dirs.push_back(file);
 
     std::sort(dirs.begin(), dirs.end());
 
@@ -76,8 +75,8 @@ std::vector<std::filesystem::path> get_links(std::filesystem::path path)
 
     vector<fs::path> links;
     for (auto &file : fs::directory_iterator(path))
-        if (auto path_to_file = fs::path(file); fs::is_symlink(path_to_file))
-            links.push_back(path_to_file);
+        if (fs::is_symlink(file))
+            links.push_back(file);
 
     std::sort(links.begin(), links.end());
 
