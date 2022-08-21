@@ -1,12 +1,10 @@
-#define UNKNOWN_FILE_TYPE_PLACEHOLDER "[]"
+#define UNKNOWN_FILE_TYPE_PLACEHOLDER ""
 #include "icons.hpp"
 #include <filesystem>
 #include <map>
 #include <string>
 namespace fs = std::filesystem;
-using std::make_pair;
 using std::string;
-using namespace std::literals::string_literals;
 
 std::map<string, string> icons = {
     {".applescript", ""},
@@ -56,8 +54,9 @@ std::map<string, string> icons = {
     {".cljc", ""},
     {".cljs", ""},
     {".edn", ""},
-    {"CMakeLists.txt", "喝"},
-    {".cmake", "喝"},
+    // Find another icon
+    //{"CMakeLists.txt", "喝"},
+    //{".cmake", "喝"},
     {".css", ""},
     {".css.erb", ""},
     {".css.liquid", ""},
@@ -119,37 +118,37 @@ std::map<string, string> icons = {
     {"socket", "ﳥ"},
     {"symlink", ""}};
 
-string get_icon(fs::path filename)
+string get_icon(fs::path path)
 {
-    auto icon = icons.find(filename.string());
+    auto icon = icons.find(path.string());
 
     if (icon != icons.end())
         return icon->second;
     else
-        icon = icons.find(filename.extension().string());
+        icon = icons.find(path.extension().string());
 
     if (icon != icons.end())
         return icon->second;
 
-    if (fs::is_block_file(filename))
+    if (fs::is_block_file(path))
         return icons["block"];
 
-    if (fs::is_character_file(filename))
+    if (fs::is_character_file(path))
         return icons[".txt"];
 
-    if (fs::is_directory(filename))
+    if (fs::is_directory(path))
         return icons["dir"];
 
-    if (fs::is_fifo(filename))
+    if (fs::is_fifo(path))
         return icons["pipe"];
 
-    if (fs::is_regular_file(filename))
+    if (fs::is_regular_file(path))
         return icons[".txt"];
 
-    if (fs::is_socket(filename))
+    if (fs::is_socket(path))
         return icons["socket"];
 
-    if (fs::is_symlink(filename))
+    if (fs::is_symlink(path))
         return icons["symlink"];
 
     return UNKNOWN_FILE_TYPE_PLACEHOLDER;
