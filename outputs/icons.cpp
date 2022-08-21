@@ -79,7 +79,7 @@ std::map<string, string> icons = {
     {".kt", "ﱃ"},
     {".kts", "ﱃ"},
     {".log", ""},
-    {".lua", "a"},
+    {".lua", ""},
     {".md", ""},
     {".mdown", ""},
     {".markdown", ""},
