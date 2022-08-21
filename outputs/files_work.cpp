@@ -44,6 +44,7 @@ vector<fs::path> get_dirs_recursive(fs::path path)
         throw std::invalid_argument("Given path isn't directory");
 
     vector<fs::path> dirs;
+    dirs.push_back(path);
 
     for (auto &file : fs::recursive_directory_iterator(path))
         if (fs::is_directory(file))
