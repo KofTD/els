@@ -1,4 +1,5 @@
 #include "parse_arguments/parse_arguments.hpp"
+#include "outputs/oneline.hpp"
 #include "outputs/grid_output.hpp"
 #include <iostream>
 using std::cout, std::endl;
@@ -40,7 +41,7 @@ int main(int argc, char const *argv[])
         }
         else if (arguments.count("oneline"))
         {
-            // oneline output
+            oneline_output(arguments);
         }
         else if (arguments.count("tree") && arguments.count("long"))
         {

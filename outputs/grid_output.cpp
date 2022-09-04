@@ -1,5 +1,3 @@
-#include "grid_output.hpp"
-#include "colorconsole.hpp"
 #include "colors.hpp"
 #include "files_work.hpp"
 #include "icons.hpp"
@@ -36,45 +34,18 @@ size_t get_width(std::vector<std::filesystem::path> files)
     return max_length;
 }
 
-auto colorize(std::string str, Colors color)
-{
-    switch (color)
-    {
-    case Colors::red:
-        return dye::red(str);
-    case Colors::aqua:
-        return dye::aqua(str);
-    case Colors::blue:
-        return dye::blue(str);
-    case Colors::green:
-        return dye::green(str);
-    case Colors::grey:
-        return dye::grey(str);
-    case Colors::light_red:
-        return dye::light_red(str);
-    case Colors::purple:
-        return dye::purple(str);
-    case Colors::white:
-        return dye::white(str);
-    case Colors::yellow:
-        return dye::yellow(str);
-    }
-
-    return dye::white(str);
-}
-
-void output(std::vector<std::filesystem::path> files)
+void grid(std::vector<std::filesystem::path> files)
 {
     if (files.size() == 0)
     {
-        cout << dye::red("EMPTY") << endl;
+        cout << color_string("EMPTY", Colors::red) << endl;
         cout << endl;
         return;
     }
 
     cout.setf(std::ios_base::left);
 
-    auto width = get_width(files) + 5;
+    auto width = get_width(files) + 16;
     size_t files_per_line = 0;
 
     if (width >= 60)
@@ -94,11 +65,9 @@ void output(std::vector<std::filesystem::path> files)
         cout.width(width);
 
         if (files.size() / files_per_line != 1)
-        {
-            cout << colorize(icon + " " + file.filename().string(), color);
-        }
+            cout << color_string(icon + " " + file.filename().string(), color);
         else
-            cout << colorize(icon + " " + file.filename().string(), color) << "  ";
+            cout << color_string(icon + " " + file.filename().string(), color) << "  ";
 
         files_counter++;
 
@@ -133,7 +102,7 @@ void grid_output(std::map<std::string, std::string> &arguments)
             {
                 cout << dir.string() << ":" << endl;
 
-                output(get_all_files(dir));
+                grid(get_all_files(dir));
             }
         }
         else if (arguments.count("dirs"))
@@ -142,7 +111,7 @@ void grid_output(std::map<std::string, std::string> &arguments)
             {
                 cout << dir.string() << ":" << endl;
 
-                output(get_dirs(dir));
+                grid(get_dirs(dir));
             }
         }
         else if (arguments.count("links"))
@@ -151,7 +120,7 @@ void grid_output(std::map<std::string, std::string> &arguments)
             {
                 cout << dir.string() << ":" << endl;
 
-                output(get_links(dir));
+                grid(get_links(dir));
             }
         }
         else
@@ -160,20 +129,20 @@ void grid_output(std::map<std::string, std::string> &arguments)
             {
                 cout << dir.string() << ":" << endl;
 
-                output(get_rfiles_and_dirs(dir));
+                grid(get_rfiles_and_dirs(dir));
             }
         }
     }
     else
     {
         if (arguments.count("all"))
-            output(get_all_files(arguments["path"]));
+            grid(get_all_files(arguments["path"]));
         else if (arguments.count("dirs"))
-            output(get_dirs(arguments["path"]));
+            grid(get_dirs(arguments["path"]));
         else if (arguments.count("links"))
-            output(get_links(arguments["path"]));
+            grid(get_links(arguments["path"]));
         else
-            output(get_rfiles_and_dirs(arguments["path"]));
+            grid(get_rfiles_and_dirs(arguments["path"]));
     }
 
     return;
