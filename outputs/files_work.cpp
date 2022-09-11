@@ -1,9 +1,17 @@
 #include "files_work.hpp"
+#include <Windows.h>
 #include <algorithm>
 #include <filesystem>
 #include <vector>
 using std::vector;
 namespace fs = std::filesystem;
+
+bool is_hiden(fs::path path)
+{
+    auto attributes = GetFileAttributesA(path.string().c_str());
+
+    return (attributes & FILE_ATTRIBUTE_HIDDEN ? true : false);
+}
 
 vector<fs::path> get_all_files(fs::path path)
 {
@@ -20,7 +28,7 @@ vector<fs::path> get_all_files(fs::path path)
     return files;
 }
 
-vector<fs::path> get_rfiles_and_dirs(fs::path path)
+vector<fs::path> get_non_hidden_files(fs::path path)
 {
     if (!fs::is_directory(path))
         throw std::invalid_argument("Given path isn't directory");
@@ -29,7 +37,7 @@ vector<fs::path> get_rfiles_and_dirs(fs::path path)
 
     for (auto &file : fs::directory_iterator(path))
     {
-        if (fs::is_regular_file(file) || fs::is_directory(file))
+        if ((fs::is_regular_file(file) || fs::is_directory(file)) && !is_hiden(file))
             files.push_back(file);
     }
 

@@ -73,7 +73,7 @@ void oneline_output(std::map<std::string, std::string> &arguments)
             {
                 cout << dir.string() << ":" << endl;
 
-                oneline(get_rfiles_and_dirs(dir));
+                oneline(get_non_hidden_files(dir));
             }
         }
     }
@@ -86,7 +86,7 @@ void oneline_output(std::map<std::string, std::string> &arguments)
         else if (arguments.count("links"))
             oneline(get_links(arguments["path"]));
         else
-            oneline(get_rfiles_and_dirs(arguments["path"]));
+            oneline(get_non_hidden_files(arguments["path"]));
     }
 
     return;

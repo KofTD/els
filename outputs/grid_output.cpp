@@ -129,7 +129,7 @@ void grid_output(std::map<std::string, std::string> &arguments)
             {
                 cout << dir.string() << ":" << endl;
 
-                grid(get_rfiles_and_dirs(dir));
+                grid(get_non_hidden_files(dir));
             }
         }
     }
@@ -142,7 +142,7 @@ void grid_output(std::map<std::string, std::string> &arguments)
         else if (arguments.count("links"))
             grid(get_links(arguments["path"]));
         else
-            grid(get_rfiles_and_dirs(arguments["path"]));
+            grid(get_non_hidden_files(arguments["path"]));
     }
 
     return;

@@ -17,7 +17,7 @@ std::vector<std::filesystem::path> get_all_files(std::filesystem::path path);
  * @param path Path to directory
  * @return Vector of paths to regular files and dirs from given directory
  */
-std::vector<std::filesystem::path> get_rfiles_and_dirs(std::filesystem::path path);
+std::vector<std::filesystem::path> get_non_hidden_files(std::filesystem::path path);
 
 /**
  * @brief Recursevly get directories from given one
