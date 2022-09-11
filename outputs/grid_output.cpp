@@ -94,7 +94,8 @@ void grid_output(std::map<std::string, std::string> &arguments)
 
     if (arguments.count("recurse"))
     {
-        auto dirs = get_dirs_recursive(arguments["path"]);
+        std::vector<std::filesystem::path> dirs;
+        get_non_hidden_dirs_recursive(arguments["path"], &dirs);
 
         if (arguments.count("all"))
         {
@@ -111,7 +112,7 @@ void grid_output(std::map<std::string, std::string> &arguments)
             {
                 cout << dir.string() << ":" << endl;
 
-                grid(get_dirs(dir));
+                grid(get_non_hidden_dirs(dir));
             }
         }
         else if (arguments.count("links"))
@@ -120,7 +121,7 @@ void grid_output(std::map<std::string, std::string> &arguments)
             {
                 cout << dir.string() << ":" << endl;
 
-                grid(get_links(dir));
+                grid(get_non_hidden_links(dir));
             }
         }
         else
@@ -138,9 +139,9 @@ void grid_output(std::map<std::string, std::string> &arguments)
         if (arguments.count("all"))
             grid(get_all_files(arguments["path"]));
         else if (arguments.count("dirs"))
-            grid(get_dirs(arguments["path"]));
+            grid(get_non_hidden_dirs(arguments["path"]));
         else if (arguments.count("links"))
-            grid(get_links(arguments["path"]));
+            grid(get_non_hidden_links(arguments["path"]));
         else
             grid(get_non_hidden_files(arguments["path"]));
     }

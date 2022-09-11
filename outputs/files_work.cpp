@@ -2,11 +2,12 @@
 #include <Windows.h>
 #include <algorithm>
 #include <filesystem>
+#include <iostream>
 #include <vector>
 using std::vector;
 namespace fs = std::filesystem;
 
-bool is_hiden(fs::path path)
+bool is_hidden(fs::path path)
 {
     auto attributes = GetFileAttributesA(path.string().c_str());
 
@@ -37,7 +38,7 @@ vector<fs::path> get_non_hidden_files(fs::path path)
 
     for (auto &file : fs::directory_iterator(path))
     {
-        if ((fs::is_regular_file(file) || fs::is_directory(file)) && !is_hiden(file))
+        if ((fs::is_regular_file(file) || fs::is_directory(file)) && !is_hidden(file))
             files.push_back(file);
     }
 
@@ -46,22 +47,31 @@ vector<fs::path> get_non_hidden_files(fs::path path)
     return files;
 }
 
-vector<fs::path> get_dirs_recursive(fs::path path)
+void get_non_hidden_dirs_recursive(fs::path path, vector<fs::path> *dirs)
 {
     if (!fs::is_directory(path))
         throw std::invalid_argument("Given path isn't directory");
 
-    vector<fs::path> dirs;
-    dirs.push_back(path);
+    dirs->push_back(path);
 
-    for (auto &file : fs::recursive_directory_iterator(path))
+    for (auto &file : fs::directory_iterator(path))
+    {
         if (fs::is_directory(file))
-            dirs.push_back(file);
+        {
+            if (is_hidden(file))
+                continue;
+            else
+            {
+                dirs->push_back(file);
+                get_non_hidden_dirs_recursive(file, dirs);
+            }
+        }
+    }
 
-    return dirs;
+    return;
 }
 
-vector<fs::path> get_dirs(fs::path path)
+vector<fs::path> get_non_hidden_dirs(fs::path path)
 {
     if (!fs::is_directory(path))
         throw std::invalid_argument("Given path isn't directory");
@@ -69,7 +79,7 @@ vector<fs::path> get_dirs(fs::path path)
     vector<fs::path> dirs;
 
     for (auto &file : fs::directory_iterator(path))
-        if (fs::is_directory(file))
+        if (fs::is_directory(file) && !is_hidden(file))
             dirs.push_back(file);
 
     std::sort(dirs.begin(), dirs.end());
@@ -77,14 +87,14 @@ vector<fs::path> get_dirs(fs::path path)
     return dirs;
 }
 
-std::vector<std::filesystem::path> get_links(std::filesystem::path path)
+std::vector<std::filesystem::path> get_non_hidden_links(std::filesystem::path path)
 {
     if (!fs::is_directory(path))
         throw std::invalid_argument("Given path isn't directory");
 
     vector<fs::path> links;
     for (auto &file : fs::directory_iterator(path))
-        if (fs::is_symlink(file))
+        if (fs::is_symlink(file) && !is_hidden(file))
             links.push_back(file);
 
     std::sort(links.begin(), links.end());

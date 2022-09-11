@@ -38,7 +38,8 @@ void oneline_output(std::map<std::string, std::string> &arguments)
 
     if (arguments.count("recurse"))
     {
-        auto dirs = get_dirs_recursive(arguments["path"]);
+        std::vector<std::filesystem::path> dirs;
+        get_non_hidden_dirs_recursive(arguments["path"], &dirs);
 
         if (arguments.count("all"))
         {
@@ -55,7 +56,7 @@ void oneline_output(std::map<std::string, std::string> &arguments)
             {
                 cout << dir.string() << ":" << endl;
 
-                oneline(get_dirs(dir));
+                oneline(get_non_hidden_dirs(dir));
             }
         }
         else if (arguments.count("links"))
@@ -64,7 +65,7 @@ void oneline_output(std::map<std::string, std::string> &arguments)
             {
                 cout << dir.string() << ":" << endl;
 
-                oneline(get_links(dir));
+                oneline(get_non_hidden_links(dir));
             }
         }
         else
@@ -82,9 +83,9 @@ void oneline_output(std::map<std::string, std::string> &arguments)
         if (arguments.count("all"))
             oneline(get_all_files(arguments["path"]));
         else if (arguments.count("dirs"))
-            oneline(get_dirs(arguments["path"]));
+            oneline(get_non_hidden_dirs(arguments["path"]));
         else if (arguments.count("links"))
-            oneline(get_links(arguments["path"]));
+            oneline(get_non_hidden_links(arguments["path"]));
         else
             oneline(get_non_hidden_files(arguments["path"]));
     }
