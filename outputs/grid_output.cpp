@@ -20,7 +20,7 @@ size_t get_largest_divisor(size_t size)
         return size;
 }
 
-size_t get_width(std::vector<std::filesystem::path> files)
+size_t get_width(const std::vector<std::filesystem::path>& files)
 {
     size_t max_length = 0;
 
@@ -34,9 +34,9 @@ size_t get_width(std::vector<std::filesystem::path> files)
     return max_length;
 }
 
-void grid(std::vector<std::filesystem::path> files)
+void grid(const std::vector<std::filesystem::path>& files)
 {
-    if (files.size() == 0)
+    if (files.empty())
     {
         cout << color_string("EMPTY", Colors::red) << endl;
         cout << endl;
@@ -46,7 +46,7 @@ void grid(std::vector<std::filesystem::path> files)
     cout.setf(std::ios_base::left);
 
     auto width = get_width(files) + 16;
-    size_t files_per_line = 0;
+    size_t files_per_line;
 
     if (width >= 60)
         files_per_line = 1;
@@ -146,5 +146,4 @@ void grid_output(std::map<std::string, std::string> &arguments)
             grid(get_non_hidden_files(arguments["path"]));
     }
 
-    return;
-}
+    }

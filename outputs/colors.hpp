@@ -23,7 +23,7 @@ private:
 
 public:
     color_string();
-    color_string(const char *t);
+    explicit color_string(const char *t);
     color_string(const char *t, Colors c);
     color_string(std::string t, Colors c);
     ~color_string();
@@ -31,4 +31,4 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const color_string &str);
 };
 
-Colors get_color(std::filesystem::path file);
+Colors get_color(const std::filesystem::path& file);

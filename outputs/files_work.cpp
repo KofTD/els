@@ -7,14 +7,14 @@
 using std::vector;
 namespace fs = std::filesystem;
 
-bool is_hidden(fs::path path)
+bool is_hidden(const fs::path& path)
 {
     auto attributes = GetFileAttributesA(path.string().c_str());
 
-    return (attributes & FILE_ATTRIBUTE_HIDDEN ? true : false);
+    return (attributes & FILE_ATTRIBUTE_HIDDEN) != 0;
 }
 
-vector<fs::path> get_all_files(fs::path path)
+vector<fs::path> get_all_files(const fs::path& path)
 {
     if (!fs::is_directory(path))
         throw std::invalid_argument("Given path isn't directory");
@@ -29,7 +29,7 @@ vector<fs::path> get_all_files(fs::path path)
     return files;
 }
 
-vector<fs::path> get_non_hidden_files(fs::path path)
+vector<fs::path> get_non_hidden_files(const fs::path& path)
 {
     if (!fs::is_directory(path))
         throw std::invalid_argument("Given path isn't directory");
@@ -47,7 +47,7 @@ vector<fs::path> get_non_hidden_files(fs::path path)
     return files;
 }
 
-void get_non_hidden_dirs_recursive(fs::path path, vector<fs::path> *dirs)
+void get_non_hidden_dirs_recursive(const fs::path& path, vector<fs::path> *dirs)
 {
     if (!fs::is_directory(path))
         throw std::invalid_argument("Given path isn't directory");
@@ -68,10 +68,9 @@ void get_non_hidden_dirs_recursive(fs::path path, vector<fs::path> *dirs)
         }
     }
 
-    return;
-}
+    }
 
-vector<fs::path> get_non_hidden_dirs(fs::path path)
+vector<fs::path> get_non_hidden_dirs(const fs::path& path)
 {
     if (!fs::is_directory(path))
         throw std::invalid_argument("Given path isn't directory");
@@ -87,7 +86,7 @@ vector<fs::path> get_non_hidden_dirs(fs::path path)
     return dirs;
 }
 
-std::vector<std::filesystem::path> get_non_hidden_links(std::filesystem::path path)
+std::vector<std::filesystem::path> get_non_hidden_links(const std::filesystem::path& path)
 {
     if (!fs::is_directory(path))
         throw std::invalid_argument("Given path isn't directory");

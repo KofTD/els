@@ -13,5 +13,5 @@ target_link_libraries(LongArguments PRIVATE ParseArguments)
 add_executable(OneDashString one_dash_string.cpp)
 target_link_libraries(OneDashString PRIVATE ParseArguments)
 
-add_executable(ParseDifficultString parse_dificult_string.cpp)
+add_executable(ParseDifficultString parse_difficult_string.cpp)
 target_link_libraries(ParseDifficultString PRIVATE ParseArguments)

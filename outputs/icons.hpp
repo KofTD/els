@@ -2,4 +2,4 @@
 #include <filesystem>
 #include <string>
 
-std::string get_icon(std::filesystem::path path);
+std::string get_icon(const std::filesystem::path& path);

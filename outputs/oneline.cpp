@@ -6,9 +6,9 @@
 using std::cout;
 using std::endl;
 
-void oneline(std::vector<std::filesystem::path> files)
+void oneline(const std::vector<std::filesystem::path>& files)
 {
-    if (files.size() == 0)
+    if (files.empty())
     {
         cout << color_string("EMPTY", Colors::red) << endl;
         cout << endl;
@@ -90,5 +90,4 @@ void oneline_output(std::map<std::string, std::string> &arguments)
             oneline(get_non_hidden_files(arguments["path"]));
     }
 
-    return;
-}
+    }

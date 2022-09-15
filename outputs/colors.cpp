@@ -1,5 +1,4 @@
 #include "colors.hpp"
-#include <iostream>
 #include <map>
 #include <string>
 namespace fs = std::filesystem;
@@ -118,7 +117,7 @@ std::ostream &operator<<(std::ostream &os, const color_string &str)
 	return os << "\x1b[" + std::to_string(str.color) + 'm' + str.text + "\x1b[0m";
 }
 
-Colors get_color(fs::path file)
+Colors get_color(const fs::path& file)
 {
 	auto color = colors.find(file.extension().string());
 	if (color == colors.end())
@@ -151,9 +150,9 @@ Colors get_color(fs::path file)
 	return color->second;
 }
 
-color_string::color_string() : color{30} {};
+color_string::color_string() : color{30} {}
 
-color_string::color_string(const char *t) : text{t}, color{30} {};
+color_string::color_string(const char *t) : text{t}, color{30} {}
 color_string::color_string(const char *t, Colors c) : text{t}
 {
 	switch (c)
@@ -222,4 +221,4 @@ color_string::color_string(std::string t, Colors c) : text{t}
 		return;
 	}
 }
-color_string::~color_string(){};
+color_string::~color_string()= default;

@@ -5,7 +5,7 @@ using std::string;
 using namespace std::string_literals;
 using std::map;
 
-string string_to_lowercase(string str)
+[[maybe_unused]] string string_to_lowercase(string str)
 {
     for (auto &i : str)
         i = char(tolower(int(i)));
@@ -13,12 +13,12 @@ string string_to_lowercase(string str)
 }
 
 // @brief Parse string like -aDR
-std::vector<char> parse_dash_string(string str)
+std::vector<char> parse_dash_string(const const string&& str)
 {
     std::vector<char> arguments;
 
-    for (int i = 0; i < str.length(); i++)
-        arguments.push_back(str[i]);
+    for (char & i : str)
+        arguments.push_back(i);
 
     return arguments;
 }
@@ -40,7 +40,7 @@ inline void set_full_names_of_arguments(map<string, string> &arguments)
     full_names["m"] = "modified";
 
     std::vector<string> short_names;
-    for (auto i : arguments)
+    for (const auto& i : arguments)
     {
         if (auto full_name = full_names.find(i.first); full_name != full_names.end())
         {
@@ -52,8 +52,6 @@ inline void set_full_names_of_arguments(map<string, string> &arguments)
 
     for (auto &i : short_names)
         arguments.erase(i);
-
-    return;
 }
 
 map<string, string> parse_arguments(int argc, const char *argv[])
@@ -66,11 +64,9 @@ map<string, string> parse_arguments(int argc, const char *argv[])
         {
             auto lowercase_argument = argument.substr(2);
             string status = "ON";
-            if (size_t index = lowercase_argument.find('='); index != string::npos)
-            {
-                status = lowercase_argument.substr(index + 1);
-                lowercase_argument = lowercase_argument.erase(index);
-            }
+            size_t index = lowercase_argument.find('=');
+            status = lowercase_argument.substr(index + 1);
+            lowercase_argument = lowercase_argument.erase(index);
 
             arguments.insert(std::make_pair(lowercase_argument, status));
         }
@@ -79,10 +75,10 @@ map<string, string> parse_arguments(int argc, const char *argv[])
             if (argument.length() > 2)
             {
                 auto dash_arguments = parse_dash_string(argument.substr(1));
-                for (int j = 0; j < dash_arguments.size(); j++)
+                for (char dash_argument : dash_arguments)
                 {
                     string arg;
-                    arg.push_back(dash_arguments[j]);
+                    arg.push_back(dash_argument);
                     arguments.insert(std::make_pair(arg, "ON"));
                 }
             }

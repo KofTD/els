@@ -1,5 +1,4 @@
 #include "../../parse_arguments/parse_arguments.hpp"
-#include <iostream>
 
 int main(int argc, char const *argv[])
 {

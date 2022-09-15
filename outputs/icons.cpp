@@ -118,7 +118,7 @@ std::map<string, string> icons = {
     {"socket", "ﳥ"},
     {"symlink", ""}};
 
-string get_icon(fs::path path)
+string get_icon(const fs::path& path)
 {
     auto icon = icons.find(path.string());
 
