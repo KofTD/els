@@ -13,11 +13,11 @@ using std::map;
 }
 
 // @brief Parse string like -aDR
-std::vector<char> parse_dash_string(const const string&& str)
+std::vector<char> parse_dash_string(const string& str)
 {
     std::vector<char> arguments;
 
-    for (char & i : str)
+    for (auto& i : str)
         arguments.push_back(i);
 
     return arguments;
